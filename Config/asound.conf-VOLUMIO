@@ -1,0 +1,13 @@
+pcm.!default {
+     type "bluealsa"
+}
+
+ctl.!default {
+        type bluealsa
+}
+
+defaults.bluealsa {
+    interface "hci0"
+    device "BLUETOOTHMAC"
+    profile "a2dp"
+}

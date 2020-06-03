@@ -1,0 +1,12 @@
+[Unit]
+Description=RFID-based Player
+After=multi-user.target
+
+[Service]
+Type=idle
+User=volumio
+ExecStart=/usr/bin/python /home/volumio/rfidplayer/rfidplayer.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

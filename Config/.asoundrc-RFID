@@ -1,0 +1,19 @@
+pcm.!default {
+        type plug
+        slave.pcm {
+                type bluealsa
+                device "BLUETOOTHMAC"
+                profile "a2dp"
+        }
+}
+
+#ctl.!default "bluealsa"
+ctl.!default {
+        type bluealsa
+}
+
+defaults.bluealsa {
+    interface "hci0"
+    device "BLUETOOTHMAC"
+    profile "a2dp"
+}

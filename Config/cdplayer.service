@@ -1,0 +1,12 @@
+[Unit]
+Description=Auto-CD-Player
+After=multi-user.target
+
+[Service]
+Type=idle
+User=pi
+ExecStart=/usr/bin/python /home/pi/cdplayer.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
