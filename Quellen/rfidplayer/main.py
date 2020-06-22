@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 
-import RPi.GPIO as GPIO
 from lib import MFRC522
+import RPi.GPIO as GPIO
 import signal
 import time
 import subprocess
@@ -31,30 +31,30 @@ def shutdown():
 # Handler for chips added/removed
 #
 def chip_added(id):
-	global chip_to_music_mapping_file
-	found = False
+    global chip_to_music_mapping_file
+    found = False
 
     print("---added: " +id)
     try:
-		prefix = id +" "
+        prefix = id +" "
         mappingfile = open(chip_to_music_mapping_file, "r")
         data = mappingfile.readlines()
         mappingfile.close()
-		for line in data:
-			# ignore comments and search for lines starting with chip id
-			if not line.startswith("#") and line.startswith(prefix):
-				print("found mapping: " +line)
-				found = True
-				file_to_play = line.replace(prefix, "")
-				if file_to_play == "shutdown":
-					player.play(id, file_to_play)
-				else:
-					shutdown()
+        for line in data:
+            # ignore comments and search for lines starting with chip id
+            if not line.startswith("#") and line.startswith(prefix):
+                print("found mapping: " +line)
+                found = True
+                file_to_play = line.replace(prefix, "")
+                if file_to_play == "shutdown":
+                    shutdown()
+                else:
+                    player.play(id, file_to_play)
     except:
         print("Failed to load mapping from file '" +chip_to_music_mapping_file +"'")
-	
-	if not found:
-		print("no mapping found for " +id)	
+
+    if not found:
+        print("no mapping found for " +id)	
     return found
 
 
@@ -141,18 +141,18 @@ while continue_reading:
 
         if message_level >= 3:
             print "Card read UID: "+uid_str
-		
+
         if current_chip_id == None:
-			# New chip detected and no previous chip
+            # New chip detected and no previous chip
             current_chip_id = uid_str
             last_detection_time = current_milli_time() 
             chip_added(uid_str);
         else:
             if current_chip_id == uid_str:
-				# same chip detected again
+                # same chip detected again
                 last_detection_time = current_milli_time()
             else:
-				# New different chip detected (previous one gone)
+                # New different chip detected (previous one gone)
                 chip_removed(current_chip_id)
                 current_chip_id = uid_str
                 last_detection_time = current_milli_time()
@@ -161,15 +161,15 @@ while continue_reading:
         time.sleep(0.3)
     else:
         if current_chip_id:
-			# no chip any longer (previous one gone)
+            # no chip any longer (previous one gone)
             if message_level >= 3:
-                print "No chip present any more"
+                print "No chip present any longer (for " + str(current_milli_time() - last_detection_time) +"ms)"
             if last_detection_time < current_milli_time() -1500:
                 chip_removed(current_chip_id)
                 current_chip_id = None
             time.sleep(0.2)
         else:
-			# no chip and no chip previously
+            # no chip and no chip previously
             time.sleep(0.5)
 
 

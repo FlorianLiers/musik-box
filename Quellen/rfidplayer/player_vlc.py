@@ -38,10 +38,10 @@ def play_vlc_single(id, index, filename, start_position_ms):
         while vlc_playing and not vlc_next_song:
             if vlc_check_sec <= 0:
                 vlc_check_sec = save_interval_sec
-                state = p.get_state()
+                curr_state = p.get_state()
                 position = p.get_time()
                 title = p.get_title()
-                print(str(state) +" - time was " +str(position) +" (" +str(p.get_position()) +")")
+                print(str(curr_state) +" - time was " +str(position) +" (" +str(p.get_position()) +")")
                 state.save_state(id, index, position)
             vlc_check_sec = vlc_check_sec -1
             time.sleep(1)
