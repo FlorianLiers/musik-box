@@ -45,7 +45,7 @@ def chip_added(id):
             if not line.startswith("#") and line.startswith(prefix):
                 print("found mapping: " +line)
                 found = True
-                file_to_play = line.replace(prefix, "")
+                file_to_play = line.replace(prefix, "").strip()
                 if file_to_play == "shutdown":
                     shutdown()
                 else:
