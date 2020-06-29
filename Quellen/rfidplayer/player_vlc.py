@@ -4,7 +4,7 @@
 import time
 import vlc
 import glob
-import thread
+from threading import Thread
 
 import state
 
@@ -14,6 +14,7 @@ save_interval_sec = 20
 
 vlc_playing = False
 vlc_next_song = False
+vlc_curr_thread = None
 
 
 def vlc_callback(self, event):
@@ -89,11 +90,16 @@ def play_vlc_playlist(id, filename):
 
 
 def play(id, filename):
+    global vlc_curr_thread
     print("Starting VLC for " +id +" - " +filename)
-    thread.start_new_thread(play_vlc_playlist, (id, filename, ))
+    vlc_curr_thread = Thread(target=play_vlc_playlist, args=(id, filename, ))
+    vlc_curr_thread.start()
 
 
 def stop():
     global vlc_playing
+    global vlc_curr_thread
     print("Stopping VLC - end signal to VLC")
     vlc_playing = False
+    if vlc_curr_thread:
+        vlc_curr_thread.join()

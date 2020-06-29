@@ -16,9 +16,8 @@ chip_to_music_mapping_file = "mapping.txt"
 
 # Debug tests:
 #player.play_vlc_playlist("id", "/mnt/diskflea/music/Alben/Neil Diamond/Millennium Edition/Millennium Edition-Neil Diamond-Both Sides Now.mp3")
-#player.play(1, "/mnt/diskflea/music/Alben/Ole Edvard Antonsen/Antonsen, Ole Edvard- Nordic Trumpet Concertos/*")
-#player_volumio.play("test")
-
+#player.play("1", "/mnt/diskflea/music/Alben/Ole Edvard Antonsen/Antonsen, Ole Edvard- Nordic Trumpet Concertos/*")
+#player.stop()
 
 # Helper function for shutting down whole system
 def shutdown():
