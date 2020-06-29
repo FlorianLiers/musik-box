@@ -26,11 +26,17 @@ def play_vlc_single(id, index, filename, start_position_ms):
     global vlc_playing
     global vlc_next_song
     global save_interval_sec
-    p = vlc.MediaPlayer("file://" +filename)
+    
+    # is there already a "http://" or "file://" in the filename?
+    # -> if not, assume a file name
+    if filename.find("://") < 0:
+        filename = "file://" +filename
+    
+    p = vlc.MediaPlayer(filename)
     p.event_manager().event_attach(vlc.EventType.MediaPlayerEndReached, vlc_callback, 1)
-    print("Created")
     result = p.play()
     if result == 0:
+        print("Start playing '" +filename +"' at " +str(start_position_ms))
         vlc_next_song = False
         vlc_check_sec = 0
         if start_position_ms > 0:
@@ -48,7 +54,7 @@ def play_vlc_single(id, index, filename, start_position_ms):
         p.stop()
         print("Stopped at " +str(p.get_time()) +" (" +str(vlc_playing) +"," +str(vlc_next_song) +")")
     else:
-        print("Failed to start playback for " +filename)
+        print("Failed to start playback for '" +filename +"'")
     p.release()
     return result == 0
 
@@ -57,13 +63,14 @@ def play_vlc_playlist(id, filename):
     global vlc_playing
     vlc_playing = True
     (start_index, start_position_ms) = state.load_state(id)
-    if filename.endswith("/*"):
-        print("Play playlist for " +id)
+    if filename.endswith("*"):
+        print("Generate playlist for " +id)
         playlist = glob.glob(filename)
         print("number files found = " +str(len(playlist)))
     else:
-        print("Play track " +id)
+        print("Play single track '" +filename +"'")
         playlist = [ filename ]
+    
     index = 0
     for track in playlist:
         if vlc_playing:
