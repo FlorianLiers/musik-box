@@ -7,7 +7,7 @@ sudo apt-get install -y raspi-config=20170705 # Für Aktivierungs-GUI für SPI
 sudo apt-get install -y gcc # für Compile von SPI-Py
 sudo apt-get install -y python-pip # für Installation von Python Libs
 sudo apt-get install -y python2.7-dev # nötig für RPi.GPIO
-sudo pip install RPi.GPIO # für Ansteuerung der Pins
+sudo pip install 'RPi.GPIO==0.7.0' # für Ansteuerung der Pins
 
 echo "Install SPI-Py"
 git clone https://github.com/lthiery/SPI-Py.git # Stand vom 20. Feb 2019
