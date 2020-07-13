@@ -9,6 +9,7 @@ import subprocess
 import glob
 
 import player_vlc as player
+import mapping
 
 message_level = 2
 chip_to_music_mapping_file = "mapping.txt"
@@ -34,27 +35,14 @@ def chip_added(id):
     found = False
 
     print("---added: " +id)
-    try:
-        prefix = id +" "
-        mappingfile = open(chip_to_music_mapping_file, "r")
-        data = mappingfile.readlines()
-        mappingfile.close()
-        for line in data:
-            # ignore comments and search for lines starting with chip id
-            if not line.startswith("#") and line.startswith(prefix):
-                print("found mapping: " +line)
-                found = True
-                file_to_play = line.replace(prefix, "").strip()
-                if file_to_play == "shutdown":
-                    shutdown()
-                else:
-                    player.play(id, file_to_play)
-    except:
-        print("Failed to load mapping from file '" +chip_to_music_mapping_file +"'")
-
-    if not found:
-        print("no mapping found for " +id)	
-    return found
+    file_to_play = mapping.get_pattern(id)
+    if not file_to_play:
+        print("chip " +id +" is not mapped to music")
+    else:
+        if file_to_play == "shutdown":
+            shutdown()
+        else:
+            player.play(id, file_to_play)
 
 
 def chip_removed(id):
