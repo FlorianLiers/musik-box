@@ -36,7 +36,7 @@ def set_mapping(chip, pattern, comment):
     map = get_all_mappings()
     map[chip] = { "pattern": pattern }
     if comment and comment <> "":
-        map[chip].comment = comment
+        map[chip]["comment"] = comment
     try:
         with open(chip_to_music_mapping_file, "w") as mappingfile:
             json.dump(map, mappingfile, indent=2)
