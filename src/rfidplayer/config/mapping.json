@@ -1,0 +1,6 @@
+{
+  "1-2-3-4": {
+    "pattern": "/data/INTERNAL/*",
+    "comment": "Some hint for the user"
+  }
+}
