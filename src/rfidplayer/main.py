@@ -7,12 +7,13 @@ import signal
 import time
 import subprocess
 import glob
+import sys
+import getopt
 
 import player_vlc as player
 import mapping
 
 message_level = 2
-chip_to_music_mapping_file = "mapping.txt"
 
 
 # Debug tests:
@@ -31,9 +32,6 @@ def shutdown():
 # Handler for chips added/removed
 #
 def chip_added(id):
-    global chip_to_music_mapping_file
-    found = False
-
     print("---added: " +id)
     file_to_play = mapping.get_pattern(id)
     if not file_to_play:
@@ -96,6 +94,22 @@ def end_read(signal,frame):
 
 # Hook the SIGINT
 signal.signal(signal.SIGINT, end_read)
+
+
+# ---------------------------------------------------------------------------
+# Parsing command line args
+# 
+
+try:
+    opts, args = getopt.getopt(sys.argv[1:], Null, ["mapping="])
+except getopt.GetoptError:
+    print sys.argv[0] +" --mapping <mappingfilename>"
+    sys.exit(2)
+
+for o, a in opts:
+    if o in ("-m", "--mapping"):
+        print "Using mapping file: " +a
+        mapping.set_mapping_file(a)
 
 
 # ---------------------------------------------------------------------------
