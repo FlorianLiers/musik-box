@@ -6,6 +6,7 @@ from threading import Thread
 from flask import Flask
 from flask import render_template
 from flask import request
+from flask import redirect
 import mapping
 
 app = Flask(__name__)
@@ -28,10 +29,12 @@ def change_mapping():
     comment = request.form.get('comment').encode('utf8', 'replace')
     print("change mapping: " +chip +": " +pattern +" (" +comment +")")
     mapping.set_mapping(chip, pattern, comment)
-    if request.accept_mimetypes.accept_json:
-        return {}
-    else:
+    if request.accept_mimetypes.accept_html:
+        # redirect browser back to main page
         return redirect("/")
+    else:
+        # return normal 200 for REST services
+        return {}
 
 
 def set_latest_chip(id):
