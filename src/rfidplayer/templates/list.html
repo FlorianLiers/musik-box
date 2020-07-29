@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>Musikbox</title>
+    </head>
+    <body>
+        <h1>Musikbox</h1>
+        
+        <h2>Letzter aufgelegter Chip</h2>
+        <div>
+            {% if curr_chip %}
+               <form action="/changeMapping" method="post">
+                    <input type="hidden" id="chip" name="chip" value="{{ curr_chip }}">
+
+                    <label for="pattern">{{ curr_chip }}:</label>
+                    {% if curr_mapping.pattern %}
+                        <input type="text" id="pattern" name="pattern" value="{{ curr_mapping.pattern }}">
+                    {% else %}
+                        Noch keine Zuordnung festgelegt.
+                        <input type="text" id="pattern" name="pattern">
+                    {% endif %}
+
+                    <label for="comment">Kommentar:</label>
+                    <input type="text" id="comment" name="comment" value="{{ curr_mapping.comment }}">
+
+                    <input type="submit" value="Zuordnung ändern">
+                </form>
+            {% else %}
+                Noch kein Chip aufgelegt.
+            {% endif %}            
+        </div>
+
+        <h2>Zuordnung Chips zu Musik</h2>
+        <div>
+            {% for chip, mapping in all_mappings.items() %}
+                <div>
+                    <p>{{ chip }}: {{ mapping.pattern }}</p>
+                    {% if mapping.comment %}
+                        ({{ mapping.pattern }})
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        
+    </body>
+</html>

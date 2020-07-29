@@ -12,6 +12,7 @@ import getopt
 
 import player_vlc as player
 import mapping
+import webui
 
 message_level = 2
 
@@ -33,6 +34,7 @@ def shutdown():
 #
 def chip_added(id):
     print("---added: " +id)
+    webui.set_latest_chip(id)
     file_to_play = mapping.get_pattern(id)
     if not file_to_play:
         print("chip " +id +" is not mapped to music")
@@ -101,7 +103,7 @@ signal.signal(signal.SIGINT, end_read)
 # 
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], Null, ["mapping="])
+    opts, args = getopt.getopt(sys.argv[1:], "", ["mapping="])
 except getopt.GetoptError:
     print sys.argv[0] +" --mapping <mappingfilename>"
     sys.exit(2)
@@ -110,6 +112,13 @@ for o, a in opts:
     if o in ("-m", "--mapping"):
         print "Using mapping file: " +a
         mapping.set_mapping_file(a)
+
+
+# ---------------------------------------------------------------------------
+# Web GUI
+# 
+print "Start web ui on port 8080"
+webui.start()
 
 
 # ---------------------------------------------------------------------------
@@ -175,6 +184,8 @@ while continue_reading:
 
 
 print "Exiting..."
+
+webui.stop()
 
 # Cleanup player before exiting
 if current_chip_id:

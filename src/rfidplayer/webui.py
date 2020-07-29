@@ -4,6 +4,9 @@
 import time
 from threading import Thread
 from flask import Flask
+from flask import render_template
+from flask import request
+import mapping
 
 app = Flask(__name__)
 latest_chip_id = None
@@ -13,7 +16,23 @@ main_thread = None
 @app.route('/')
 def index():
     global latest_chip_id
-    return "Hello, World! " +str(latest_chip_id)
+    map = mapping.get_all_mappings()
+    curr_mapping = map.get(latest_chip_id, {})
+    print("Render mapping with " +str(len(map)) +" entries")
+    return render_template(u'list.html', curr_chip=latest_chip_id, curr_mapping=curr_mapping, all_mappings=map)
+
+@app.route('/changeMapping', methods=['POST'])
+def change_mapping():
+    chip = request.form.get('chip')
+    pattern = request.form.get('pattern')
+    comment = request.form.get('comment')
+    print("change mapping: " +chip +": " +pattern +" (" +comment +")")
+    mapping.set_mapping(chip, pattern, comment)
+    if request.accept_mimetypes.accept_json:
+        return {}
+    else:
+        return redirect("/")
+
 
 def set_latest_chip(id):
     global latest_chip_id
@@ -36,7 +55,3 @@ def start():
 def stop():
     print("Stopping web ui")
 
-
-start()
-time.sleep(10)
-stop()
