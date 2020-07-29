@@ -4,8 +4,9 @@ After=multi-user.target
 
 [Service]
 Type=idle
-User=pi
-ExecStart=/usr/bin/python /home/pi/cdplayer.py
+User=volumio
+WorkingDirectory=/home/volumio
+ExecStart=/usr/bin/python ./musik-box/src/cdplayer/cdplayer.py
 Restart=always
 
 [Install]

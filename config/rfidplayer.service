@@ -5,7 +5,8 @@ After=multi-user.target
 [Service]
 Type=idle
 User=volumio
-ExecStart=/usr/bin/python /home/volumio/rfidplayer/rfidplayer.py
+WorkingDirectory=/home/volumio
+ExecStart=/usr/bin/python ./musik-box/src/rfidplayer/main.py
 Restart=always
 
 [Install]
