@@ -25,10 +25,11 @@ def get_pattern(chip):
     try:
         mapping = get_all_mappings().get(chip, None)
         if mapping:
-            return mapping.pattern
+            return mapping.get("pattern", None)
         else:
             return None
-    except:
+    except Exception as exc:
+        print("No pattern due to: " +exc)
         return None
 
 def set_mapping(chip, pattern, comment):
