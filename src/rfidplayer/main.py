@@ -33,7 +33,9 @@ def shutdown():
 # Handler for chips added/removed
 #
 def chip_added(id):
+    global gpio_out_chip
     print("---added: " +id)
+    GPIO.output(gpio_out_chip, GPIO.HIGH)
     webui.set_latest_chip(id)
     file_to_play = mapping.get_pattern(id)
     if not file_to_play:
@@ -46,7 +48,9 @@ def chip_added(id):
 
 
 def chip_removed(id):
+    global gpio_out_chip
     print("---removed: " +id)
+    GPIO.output(gpio_out_chip, GPIO.LOW)
     player.stop()
 
 
@@ -67,6 +71,23 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setup(gpio_no, GPIO.IN, pull_up_down = GPIO.PUD_UP)
 
 GPIO.add_event_detect(gpio_no, GPIO.BOTH, callback = button_off_pressed, bouncetime = 250)
+
+
+# ---------------------------------------------------------------------------
+# Setting up LEDs for signaling status
+#
+# 16 GPIO 23; Mode BOARD
+# 18 GPIO 24; Mode BOARD
+gpio_out_standby = 16
+gpio_out_chip = 18
+
+# configure pin for output and set it initial to zero
+GPIO.setup(gpio_out_standby, GPIO.OUT)
+GPIO.output(gpio_out_standby, GPIO.LOW)
+
+GPIO.setup(gpio_out_chip, GPIO.OUT)
+GPIO.output(gpio_out_chip, GPIO.LOW)
+
 
 
 # ---------------------------------------------------------------------------
@@ -131,6 +152,7 @@ print "Press Ctrl-C to stop."
 current_chip_id = None
 last_detection_time = None
 
+GPIO.output(gpio_out_standby, GPIO.HIGH)
 
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
 while continue_reading:
@@ -184,6 +206,8 @@ while continue_reading:
 
 
 print "Exiting..."
+
+GPIO.output(gpio_out_standby, GPIO.LOW)
 
 webui.stop()
 
