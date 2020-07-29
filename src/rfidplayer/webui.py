@@ -23,9 +23,9 @@ def index():
 
 @app.route('/changeMapping', methods=['POST'])
 def change_mapping():
-    chip = request.form.get('chip')
-    pattern = request.form.get('pattern')
-    comment = request.form.get('comment')
+    chip = request.form.get('chip').encode('utf8', 'replace')
+    pattern = request.form.get('pattern').encode('utf8', 'replace')
+    comment = request.form.get('comment').encode('utf8', 'replace')
     print("change mapping: " +chip +": " +pattern +" (" +comment +")")
     mapping.set_mapping(chip, pattern, comment)
     if request.accept_mimetypes.accept_json:
