@@ -44,7 +44,7 @@ def chip_added(id):
         if file_to_play == "shutdown":
             shutdown()
         else:
-            player.play(id, file_to_play)
+            player.play(id, file_to_play.encode('utf8'))
 
 
 def chip_removed(id):
@@ -213,7 +213,7 @@ webui.stop()
 
 # Cleanup player before exiting
 if current_chip_id:
-	chip_removed(current_chip_id)
+    chip_removed(current_chip_id)
 
 # Free access to GPIO
 GPIO.cleanup()
