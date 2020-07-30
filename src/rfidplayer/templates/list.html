@@ -12,23 +12,23 @@
                     <input type="hidden" id="chip" name="chip" value="{{ curr_chip }}">
 
 					<div>
-						<label for="chip">:</label>
+						<label for="chip">Nummber des Chips:</label>
 						<span>{{ curr_chip }}</span>
 					</div>
 					
 					<div>
 						<label for="pattern">Zuordnung:</label>
 						{% if curr_mapping.pattern %}
-							<input type="text" id="pattern" name="pattern" value="{{ curr_mapping.pattern }}">
+							<input type="text" style="width: 80%;" id="pattern" name="pattern" value="{{ curr_mapping.pattern }}">
 						{% else %}
 							Noch keine Zuordnung festgelegt.
-							<input type="text" id="pattern" name="pattern">
+							<input type="text" style="width: 80%;" id="pattern" name="pattern">
 						{% endif %}
 					</div>
 					
 					<div>
 						<label for="comment">Kommentar:</label>
-						<input type="text" id="comment" name="comment" value="{{ curr_mapping.comment }}">
+						<input type="text" style="width: 80%;" id="comment" name="comment" value="{{ curr_mapping.comment }}">
 					</div>
 					
                     <input type="submit" value="Zuordnung ändern">
