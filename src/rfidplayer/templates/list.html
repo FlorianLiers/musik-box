@@ -11,17 +11,26 @@
                <form action="/changeMapping" method="post">
                     <input type="hidden" id="chip" name="chip" value="{{ curr_chip }}">
 
-                    <label for="pattern">{{ curr_chip }}:</label>
-                    {% if curr_mapping.pattern %}
-                        <input type="text" id="pattern" name="pattern" value="{{ curr_mapping.pattern }}">
-                    {% else %}
-                        Noch keine Zuordnung festgelegt.
-                        <input type="text" id="pattern" name="pattern">
-                    {% endif %}
-
-                    <label for="comment">Kommentar:</label>
-                    <input type="text" id="comment" name="comment" value="{{ curr_mapping.comment }}">
-
+					<div>
+						<label for="chip">:</label>
+						<span>{{ curr_chip }}</span>
+					</div>
+					
+					<div>
+						<label for="pattern">Zuordnung:</label>
+						{% if curr_mapping.pattern %}
+							<input type="text" id="pattern" name="pattern" value="{{ curr_mapping.pattern }}">
+						{% else %}
+							Noch keine Zuordnung festgelegt.
+							<input type="text" id="pattern" name="pattern">
+						{% endif %}
+					</div>
+					
+					<div>
+						<label for="comment">Kommentar:</label>
+						<input type="text" id="comment" name="comment" value="{{ curr_mapping.comment }}">
+					</div>
+					
                     <input type="submit" value="Zuordnung ändern">
                 </form>
             {% else %}
@@ -30,16 +39,16 @@
         </div>
 
         <h2>Zuordnung Chips zu Musik</h2>
-        <div>
+        <ul>
             {% for chip, mapping in all_mappings.items() %}
-                <div>
-                    <p>{{ chip }}: {{ mapping.pattern }}</p>
+                <li>
+                    <span class="musikbox-chip">{{ chip }}</span>: <span class="musikbox-pattern">{{ mapping.pattern }}</span>
                     {% if mapping.comment %}
-                        ({{ mapping.comment }})
+                        (<span class="musikbox-comment">{{ mapping.comment }}</span>)
                     {% endif %}
-                </div>
+                </li>
             {% endfor %}
-        </div>
+        </ul>
         
     </body>
 </html>
